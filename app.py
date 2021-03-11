@@ -2,12 +2,13 @@ import os
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
-from flask_pymongo import PyMongo  # installation difference
+from flask_pymongo import PyMongo  # installation difference 
+# had to pip3 install flask_pymongo
 from bson.objectid import ObjectId  # render the ObjectId
 if os.path.exists("env.py"):
     import env
 
-# In order to use our environment variables,
+# ^ In order to use our environment variables,
 # we need to import the 'env' package.
 # Since we are not going to push the env.py file to GitHub,
 # once our app is deployed to
