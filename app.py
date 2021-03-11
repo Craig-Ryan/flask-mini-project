@@ -1,5 +1,9 @@
 import os
-from flask import Flask
+from flask import (
+    Flask, flash, render_template,
+    redirect, request, session, url_for)
+from flask_pymongo import PyMongo  # installation difference
+from bson.objectid import ObjectId  # render the ObjectId
 if os.path.exists("env.py"):
     import env
 
@@ -15,10 +19,24 @@ if os.path.exists("env.py"):
 
 app = Flask(__name__)
 
+app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")  # grab db name
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")  # get url
+app.secret_key = os.environ.get("SECRET_KEY")
 
+# This is the Flask 'app' object we've defined above,
+# and is the final step to ensure our
+mongo = PyMongo(app)
+
+
+# routing is a string that, when we attach it
+# to a URL, will redirect to a particular function in our Flask app.
+# particular function in our Flask app.
 @app.route("/")
-def hello():
-    return "Hello World ... again!"
+@app.route("/get_tasks")
+def get_tasks():
+    tasks = mongo.db.tasks.find()  # gen data from tasks coll
+    return render_template("tasks.html", tasks=tasks)  # template we render
+    # first tasks is = to 2nd tasks which is the tasks passed into it
 
 
 # tell app how or where to run our application (in what port)
@@ -26,4 +44,3 @@ if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
             debug=True)
-
