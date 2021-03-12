@@ -41,10 +41,57 @@ def get_tasks():
     return render_template("tasks.html", tasks=tasks)  # template we render
     # first tasks is = to 2nd tasks which is the tasks passed into it
 
-# Registration functionality, build GET first
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == "POST":
+        # check if username already exists in db
+        existing_user = mongo.db.users.find_one(
+            {"username": request.form.get("username").lower()})
+
+        if existing_user:
+            flash("Username already exists")
+            return redirect(url_for("register"))
+
+        register = {
+            "username": request.form.get("username").lower(),
+            "password": generate_password_hash(request.form.get("password"))
+        }
+        mongo.db.users.insert_one(register)
+
+        # put the new user into 'session' cookie
+        session["user"] = request.form.get("username").lower()
+        flash("Registration Successful!")
     return render_template("register.html")
+    
+
+# Registration functionality, build GET first
+# @app.route("/register", methods=["GET", "POST"])
+# def register():
+#     if request.method == "POST":
+#         # Check if username already exists in db
+#         existing_user = mongo.db.users.find_one(
+#           {"username": request.form.get("username").lower()})
+
+#         # Make sure this if is indented from the above if
+#         if existing_user:
+#             flash("Username already exists")
+#             return redirect(url_for("register"))
+
+#         # Acts as an else statement if no user is found
+#         # register will act as a dict that will be insterted into db
+#         register = {
+#             "username": request.form.get("username").lower(),
+#             "password": generate_password_hash(request.form.get("password"))
+#             # want to include 2nd confirm password field, do it here
+#         }
+#         mongo.db.users.insert_one(register)
+
+#         # Put new user into 'session' cookie
+#         session["user"] = request.form.get("username").lower()
+#         flash("Registration Successful")
+#     return render_template("register.html")
+
 
 # tell app how or where to run our application (in what port)
 if __name__ == "__main__":
