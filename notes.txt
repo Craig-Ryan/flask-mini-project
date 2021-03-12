@@ -11,3 +11,5 @@ Since we used the standard password hashing from Werkzeug, it's applied a normal
 method, which is just one way to salt a hashed password.
 
 ^ start $ end of string
+
+cp templates/register.html templates/login.html -- to copy content to a new file
