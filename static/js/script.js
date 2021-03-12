@@ -4,6 +4,7 @@ $(document).ready(function(){
     $('.sidenav').sidenav({edge: "right"}); //places sidenav to the right
     $('.collapsible').collapsible(); // Accordion
     $('.tooltipped').tooltip(); // https://materializecss.com/tooltips.html
+    $('select').formSelect();  //https://materializecss.com/select.html
     $('.datepicker').datepicker({
         format: "dd mmmm yyyy",
         yearRange: 3,
