@@ -2,9 +2,11 @@ import os
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
-from flask_pymongo import PyMongo  # installation difference 
+from flask_pymongo import PyMongo  # installation difference
 # had to pip3 install flask_pymongo
 from bson.objectid import ObjectId  # render the ObjectId
+# import werkzeug password checks
+from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
     import env
 
@@ -39,6 +41,10 @@ def get_tasks():
     return render_template("tasks.html", tasks=tasks)  # template we render
     # first tasks is = to 2nd tasks which is the tasks passed into it
 
+# Registration functionality, build GET first
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    return render_template("register.html")
 
 # tell app how or where to run our application (in what port)
 if __name__ == "__main__":

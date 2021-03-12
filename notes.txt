@@ -1,0 +1,6 @@
+## Hashing
+
+Hashing passwords essentially means that we're converting the user's password into another
+string, which is one-way, and practically impossible to reverse.
+To include additional security, it will then salt that string with random data, making
+it even tougher to crack.
