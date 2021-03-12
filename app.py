@@ -106,7 +106,19 @@ def profile(username):
         {"username": session["user"]})["username"]
     # 1st username is what template is expecting to retrieve on html
     # 2nd is what we've defined on the line above
-    return render_template("profile.html", username=username)
+    if session["user"]:
+        return render_template("profile.html", username=username)
+
+    return redirect(url_for('login'))
+
+
+@app.route('/logout')
+def logout():
+    # Remove user from session cookies
+    flash('You have been logged out')
+    # session.clear() clears all user sessions
+    session.pop('user')
+    return redirect(url_for('login')) # show link for login
 
 # Registration functionality, build GET first
 # @app.route("/register", methods=["GET", "POST"])
