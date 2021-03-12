@@ -37,7 +37,7 @@ mongo = PyMongo(app)
 @app.route("/")
 @app.route("/get_tasks")
 def get_tasks():
-    tasks = mongo.db.tasks.find()  # gen data from tasks coll
+    tasks = list(mongo.db.tasks.find())  # gen data from tasks coll
     return render_template("tasks.html", tasks=tasks)  # template we render
     # first tasks is = to 2nd tasks which is the tasks passed into it
 

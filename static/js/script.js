@@ -3,4 +3,5 @@
 $(document).ready(function(){
     $('.sidenav').sidenav({edge: "right"}); //places sidenav to the right
     $('.collapsible').collapsible(); // Accordion
+    $('.tooltipped').tooltip(); // https://materializecss.com/tooltips.html
   });

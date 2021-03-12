@@ -2,28 +2,36 @@
 {% block content %}
 
 
-    {% for task in tasks %}
-        {{ task.task_name }}<br>
-        {{ task.category_name }}<br>
-        {{ task.task_description }}<br>
-        {{ task.is_urgent }}<br>
-        {{ task.due_date }}<br>
-    {% endfor %}
+    <!-- This is the initial foor loop which is deleted once 1st accordion is made
+      
+      fortask in tasks %
+        { task.task_name }}<br>
+        { task.category_name }}<br>
+        { task.task_description }}<br>
+        { task.is_urgent }}<br>
+        { task.due_date }}<br>
+    % endfor  -->
 
     <!-- https://materializecss.com/collapsible.html -->
+    <!-- This conditional rendering is quite common across all templated frameworks.
+          Flask and Django both use this method, and it's also possible to do this with Angular,
+          React, and Vue as well. -->
     <ul class="collapsible">
+      {% for task in tasks %}
         <li>
-            <div class="collapsible-header white-text light-blue darken-4 text-shadow"><i class="fas fa-caret-down"></i>First</div>
-            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            <div class="collapsible-header white-text light-blue darken-4 text-shadow">
+              <i class="fas fa-caret-down"></i>
+              <strong>{{ task.task_name }}</strong> : {{ task.due_date }}
+              {% if task.is_urgent == 'on' %}
+                  <i class="fas fa-exclamation-circle light-blue-text text-lighten-2 tooltipped"
+                  data-position="right" data-tooltip="URGENT!"></i>
+              {% endif %}
+              </div>
+            <div class="collapsible-body">
+              <strong>{{ task.category_name }}</strong>
+              <p>{{ task.task_description }}</p>
         </li>
-        <li>
-            <div class="collapsible-header white-text light-blue darken-4 text-shadow"><i class="fas fa-caret-down"></i>Second</div>
-            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-        </li>
-        <li>
-            <div class="collapsible-header white-text light-blue darken-4 text-shadow"><i class="fas fa-caret-down"></i>Third</div>
-            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-        </li>
+        {% endfor %}
     </ul>
 
 {% endblock %}
