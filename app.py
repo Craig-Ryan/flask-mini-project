@@ -55,9 +55,8 @@ def register():
 
         register = {
             "username": request.form.get("username").lower(),
-            "password": generate_password_hash(request.form.get("password"))
-             # want to include 2nd confirm password field, do it here
-        }
+            "password": generate_password_hash(request.form.get("password"))}
+            # want to include 2nd confirm password field, do it here
         mongo.db.users.insert_one(register)
 
         # put the new user into 'session' cookie
@@ -119,12 +118,30 @@ def logout():
     flash('You have been logged out')
     # session.clear() clears all user sessions
     session.pop('user')
-    return redirect(url_for('login')) # show link for login
+    return redirect(url_for('login'))  # show link for login
 
 
-@app.route("/add_task")
+@app.route("/add_task", methods=["GET", "POST"])
 def add_task():
+    if request.method == "POST": # code runs when function is called and POST
+        # set k, v pairs
+        # grabs name attributes to grab data and store to DB
+        is_urgent = "on" if request.form.get("is_urgent") else "off"
+        task = {
+            "category_name": request.form.get("category_name"),
+            "task_name": request.form.get("task_name"),
+            "task_description": request.form.get("task_description"),
+            "is_urgent": is_urgent,
+            "due_date": request.form.get("due_date"),
+            "created_by": session["user"]
+        }
+        mongo.db.tasks.insert_one(task)  # will add request.form.to.dict later
+        flash("Task successfully added!")
+        return redirect(url_for("get_tasks"))
+        
+    # find categories in MongoDB and load them into app
     categories = mongo.db.categories.find().sort("category_name", 1)
+    # categories are loaded with template
     return render_template("add_task.html", categories=categories)
 
 

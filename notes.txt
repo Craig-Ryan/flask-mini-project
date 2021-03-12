@@ -5,11 +5,20 @@ string, which is one-way, and practically impossible to reverse.
 To include additional security, it will then salt that string with random data, making
 it even tougher to crack.
 
+
 The username matches that of what I signed-up with, but if you notice, the password is a
 rather long bunch of random data.
 Since we used the standard password hashing from Werkzeug, it's applied a normal SHA256
 method, which is just one way to salt a hashed password.
 
+
 ^ start $ end of string
 
+
 cp templates/register.html templates/login.html -- to copy content to a new file
+
+
+If you have something on your form like a multi-select dropdown list, that can be an
+array of items, then you would use: 'request.form.getlist()' instead.
+This would be helpful if you're grabbing multiple elements with the same name="" attribute,
+such as various ingredients from a recipe for example.
