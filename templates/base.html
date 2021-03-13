@@ -29,7 +29,7 @@ for JavaScript and CSS, that we'll use across the entire application.
         <!-- https://materializecss.com/navbar.html -->
         <nav class="nav-extended text-shadow light-blue darken-1"> <!-- Materialize classes-->
           <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">Task Manager</a>
+            <a href="{{ url_for('get_tasks') }}" class="brand-logo">Task Manager</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
             <ul class="right hide-on-med-and-down">
               <li><a href="{{ url_for('get_tasks') }}">Home</a></li> <!--Name of app.route-->
