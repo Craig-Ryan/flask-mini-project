@@ -4,6 +4,9 @@ from flask import (
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo  # installation difference
 # had to pip3 install flask_pymongo
+
+# we've imported ObjectId from BSON, which allows
+# us to properly render MongoDB documents by their unique ID.
 from bson.objectid import ObjectId  # render the ObjectId
 # import werkzeug password checks
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -138,11 +141,20 @@ def add_task():
         mongo.db.tasks.insert_one(task)  # will add request.form.to.dict later
         flash("Task successfully added!")
         return redirect(url_for("get_tasks"))
-        
+
     # find categories in MongoDB and load them into app
     categories = mongo.db.categories.find().sort("category_name", 1)
     # categories are loaded with template
     return render_template("add_task.html", categories=categories)
+
+
+@app.route("/edit_task/<task_id>", methods=["GET", "POST"])
+def edit_task(task_id):
+    # translates to BSON
+    task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
+    categories = mongo.db.categories.find().sort("category_name", 1)
+    # task var above is passed to render_template
+    return render_template("edit_task.html", task=task, categories=categories)
 
 
 # tell app how or where to run our application (in what port)
