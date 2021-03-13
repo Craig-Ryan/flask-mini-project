@@ -123,7 +123,7 @@ def logout():
 
 @app.route("/add_task", methods=["GET", "POST"])
 def add_task():
-    if request.method == "POST": # code runs when function is called and POST
+    if request.method == "POST":  # code runs when function is called and POST
         # set k, v pairs
         # grabs name attributes to grab data and store to DB
         is_urgent = "on" if request.form.get("is_urgent") else "off"
