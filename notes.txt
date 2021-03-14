@@ -36,3 +36,30 @@ On validation:
 Also, in production mode, you'll actually want to provide conditional checks on your
 Python functions to restrict these pages, but redirect users elsewhere if they're not
 validated.
+
+
+Creat an index in Mongo DB:
+Within MongoDB, you can create a Text Index directly on the database using this tab (Indexes).
+You would click 'Create Index', and then fill-in the required fields.
+
+
+Create search bar:
+Everything from our database is in this 'mongo' variable, so we need to import that in order
+to create our Search Index.
+It's very important to note, that you can only have one Text Index on your collection,
+but it can be applied to different fields.
+
+in terminal:
+  from app import mongo
+  mongo.db.tasks.create_index([("task_name", "text"), ("task_description", "text")])
+
+  drop index - mongo db - to delete an index or:
+  If we wanted to drop, or delete the Index within Python, we'd use the .drop_index()
+  method, specifying the Index name to drop.
+  Alternatively, you can drop all Indexes by using the .drop_indexes() method.
+
+  mongo.db.tasks.index_information() -- to see the info of the index details
+  mongo.db.tasks.drop_index('task_name_text_task_description_text') -- del the index
+  mongo.db.tasks.drop_indexes() -- del all indexes
+
+  quit() to exit

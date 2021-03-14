@@ -44,6 +44,15 @@ def get_tasks():
     return render_template("tasks.html", tasks=tasks)  # template we render
     # first tasks is = to 2nd tasks which is the tasks passed into it
 
+# create index in teminal as to do it inside the function 
+# would store too many indexes
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    # This dictionary uses '$text', which itself is expecting another dictionary of '$search'.
+    # Essentially, this means that we want to perform a '$search' on any '$text Index' for this
+    query = request.form.get("query")
+    tasks = list(mongo.db.tasks.find({"$text": {"$search": query}}))
+    return render_template("tasks.html", tasks=tasks)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
