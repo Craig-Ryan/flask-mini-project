@@ -189,6 +189,20 @@ def get_categories():
 # the database.
 
 
+@app.route("/add_category", methods=["GET", "POST"])
+def add_category():
+  # if the POST method is called, add data to the Mongo DB DB
+    if request.method == "POST":
+        category = {
+            "category_name": request.form.get("category_name")
+        }
+        mongo.db.categories.insert_one(category)
+        flash("New Category Added")
+        return redirect(url_for("get_categories"))
+
+  # otherwise GET will redirect user to the add_category page
+    return render_template("add_category.html")
+
 # tell app how or where to run our application (in what port)
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
