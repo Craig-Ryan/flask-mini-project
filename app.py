@@ -179,6 +179,16 @@ def delete_task(task_id):
     return redirect(url_for("get_tasks"))
 
 
+@app.route("/get_categories")
+def get_categories():
+    categories = list(mongo.db.categories.find().sort("category_name", 1))
+    return render_template("categories.html", categories=categories)
+
+# As a reminder, this first 'categories' is what gets passed into our template to use.
+# The second 'categories' is the variable defined above, what's actually being returned from
+# the database.
+
+
 # tell app how or where to run our application (in what port)
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),

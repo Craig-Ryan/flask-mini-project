@@ -22,3 +22,11 @@ If you have something on your form like a multi-select dropdown list, that can b
 array of items, then you would use: 'request.form.getlist()' instead.
 This would be helpful if you're grabbing multiple elements with the same name="" attribute,
 such as various ingredients from a recipe for example.
+
+Using admin for access to manage categories:
+Otherwise, if a user is not currently in session, then they can only log-in or register.
+If you plan on using a similar approach to restrict certain pages to an Admin, a better
+approach would actually be to include an additional key-value pair.
+Similar to our toggle switch for being urgent, you could include one for 'is_admin' or 'is_superuser'.
+That way, you could eventually have more than one Admin or SuperUser, not relying purely
+on the username itself.
